@@ -1,0 +1,6 @@
+{
+  "type": "module",
+  "installer": "online",
+  "description": "The official Interactive Brokers Gateway.",
+  "dependencies": {}
+},
