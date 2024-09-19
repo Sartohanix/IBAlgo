@@ -1,0 +1,52 @@
+{
+	"name": "iba",
+	"full_name": "IBAlgo",
+	"description": "Main command for calling IBAlgo routines.",
+	"version": "0.0.1",
+	"type": "main_module",
+	"subcommands":
+	{
+		"install":
+		{
+			"template": true,
+			"description": "Install component(s) into the IBAlgo framework.",
+			"nargs": "1+",
+			"options":
+			{
+				"--force-reinstall|-f":
+				{
+				"description": "Force-reinstall the component(s)."
+				}
+			},
+			"pp": 1
+		},
+		"configure":
+		{
+			"template": true,
+			"description": "Configure IBAlgo's components (if applicable).",
+			"nargs": 1,
+			"pp": 2
+		},
+		"run":
+		{
+			"template": true,
+			"description": "Run IBAlgo's components (if applicable).",
+			"nargs": 1,
+			"pp": 3
+		},
+		"uninstall":
+		{
+			"template": true,
+			"description": "Uninstall components from IBAlgo.",
+			"nargs": 1,
+			"pp": 4
+		},
+		"update_modules":
+		{
+			"template": false,
+			"description": "Fetch the list of available modules.",
+			"nargs": 1,
+			"pp": 5
+		}
+	}
+}
