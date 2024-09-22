@@ -1,5 +1,35 @@
 #!/bin/bash
 
+check_install() {
+    local data_dir="$l_dir/data"
+    local jars_dir="$l_dir/jars"
+    local log_file="$l_dir/ibgateway_auto_install.log"
+    local install_complete_msg="Setup has finished installing IB Gateway"
+
+    if [ ! -d "$data_dir" ]; then
+        echo "Error: 'data' folder not found in $l_dir"
+        return 1
+    fi
+
+    if [ ! -d "$jars_dir" ]; then
+        echo "Error: 'jars' folder not found in $l_dir"
+        return 1
+    fi
+
+    if [ ! -f "$log_file" ]; then
+        echo "Error: Installation log file not found at $log_file"
+        return 1
+    fi
+
+    if ! grep -q "$install_complete_msg" "$log_file"; then
+        echo "Error: Installation completion message not found in log file"
+        return 1
+    fi
+
+    echo "Installation check passed successfully"
+    return 0
+}
+
 install_ibgateway() {
     # Step 1: Get information from get_ibg_installer_info
     local URL="https://www.interactivebrokers.com/en/trading/ibgateway-stable.php"
@@ -25,6 +55,12 @@ install_ibgateway() {
     local installer_file="$tmp_dir/ibgateway_installer.sh"
     if [ -f "$installer_file" ]; then
         echo "IBGateway installer already exists. Skipping download."
+
+        # Cleaning old install&log files
+        rm -f "$tmp_dir/*.log"
+        if [ -d "ibgateway_installer.sh.*" ]; then
+            rm -r "ibgateway_installer.sh.*"
+        fi
     else
         echo "Downloading IBGateway installer... (Size: $IBG_FILE_SIZE)"
         
@@ -42,42 +78,43 @@ install_ibgateway() {
     # Step 3: Run the installer
     echo "Running IBGateway installer... This may take up to a few minutes."
 
-    expect <<EOF > "$log_file" 2>&1
+    expect <<EOF > "$log_file" #2>&1
         set timeout -1
-        log_user 1
+        set log_user 1
         spawn sh "$installer_file" -c
         expect {
             "Where should * be installed?" {
                 send "$l_dir\r"
+                send_user "DEBUG: Sending installation directory $l_dir\n"
             }
         }
         expect {
-            -r "The directory:.*already exists.*" {
+            "The directory:*already exists*" {
                 send "\r"
+                send_user "DEBUG: Sending ENTER key (existing dir)\n"
+                exp_continue
+            }
+            "*Run IB Gateway*" {
+                send "\r"
+                send_user "DEBUG: Sending ENTER key (running ibg)\n"
             }
         }
-        expect {
-            -r "Run *" {
-                send "\r"
-            }
-        }
-        expect eof
 EOF
 
-    # Check if installation was successful
-    if [ -d "$install_dir" ]; then
-        echo "IBGateway installation completed successfully."
+    # Copy the installation log file to the module's main directory
+    cp "$log_file" "$l_dir"
 
-        # # Update config.json with new version and path
-        # major_version=$(echo "$IBG_VERSION" | sed -E 's/([0-9]+)\.([0-9]+)\..*/\1\2/')
-        # jq ".ibgateway.version = \"$IBG_VERSION\" | .ibgateway.path = \"$l_dir\" | .ibgateway.major_version = \"$major_version\"" "$config_file" > "${config_file}.tmp" && mv "${config_file}.tmp" "$config_file"
-        
-        # Copy the log file to the installation directory
-        cp "$log_file" "$l_dir"
-    else
-        echo "IBGateway installation failed."
+
+    # Checks proper installation
+    if ! check_install; then
+        echo "Error: IBGateway installation failed."
         return 1
     fi
+
+    # Step 4: Cleanup
+    # rm -f "$installer_file"
+
+    return 0
 }
 
 install_ibgateway
