@@ -1,5 +1,9 @@
 {
   "description": "The official Interactive Brokers Gateway.",
   "type": "module",
-  "dependencies": {}
+  "dependencies": [],
+
+  "options": {
+    "install": ["--store-install-files|-s"]
+  }
 }
