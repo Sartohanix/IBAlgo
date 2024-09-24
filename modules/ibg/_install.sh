@@ -1,15 +1,9 @@
 #!/bin/bash
 
 check_install() {
-    local data_dir="$l_dir/data"
     local jars_dir="$l_dir/jars"
     local log_file="$l_dir/ibgateway_auto_install.log"
     local install_complete_msg="Setup has finished installing IB Gateway"
-
-    if [ ! -d "$data_dir" ]; then
-        echo "Error: 'data' folder not found in $l_dir"
-        return 1
-    fi
 
     if [ ! -d "$jars_dir" ]; then
         echo "Error: 'jars' folder not found in $l_dir"
@@ -53,13 +47,15 @@ install_ibgateway() {
 
     # Step 2: Download the installer
     local installer_file="$tmp_dir/ibgateway_installer.sh"
-    if [ -f "$installer_file" ]; then
+
+    if [ -f "$l_dir/ibgateway_installer.sh" ]; then
         echo "IBGateway installer already exists. Skipping download."
+        mv $l_dir/ibgateway_installer.sh $tmp_dir/ibgateway_installer.sh
 
         # Cleaning old install&log files
-        rm -f "$tmp_dir/*.log"
-        if [ -d "ibgateway_installer.sh.*" ]; then
-            rm -r "ibgateway_installer.sh.*"
+        rm -f "$l_dir/*.log"
+        if [ -d "$l_dir/ibgateway_installer.sh.*" ]; then
+            rm -r "$l_dir/ibgateway_installer.sh.*"
         fi
     else
         echo "Downloading IBGateway installer... (Size: $IBG_FILE_SIZE)"
@@ -104,15 +100,14 @@ EOF
     # Copy the installation log file to the module's main directory
     cp "$log_file" "$l_dir"
 
-
     # Checks proper installation
     if ! check_install; then
         echo "Error: IBGateway installation failed."
         return 1
     fi
 
-    # Step 4: Cleanup
-    # rm -f "$installer_file"
+    # Store the installation file in the module's main directory
+    mv "$installer_file" "$l_dir"
 
     return 0
 }
