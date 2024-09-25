@@ -1,0 +1,3 @@
+[submodule "modules/ibc_source"]
+	path = modules/ibc_source
+	url = https://github.com/Sartohanix/IBC
