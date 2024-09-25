@@ -1,0 +1,273 @@
+{
+  "config": {
+    "FIX": {
+      "default": "no",
+      "description": "Starts the FIX CTCI gateway.",
+      "detailed_description": "Setting this to 'yes' starts the FIX CTCI gateway used for order routing. The default is 'no'.",
+      "prompt": true
+    },
+    "AuthenticationSettings": {
+      "IbLoginId": {
+        "default": "edemo",
+        "description": "TWS username.",
+        "detailed_description": "Your TWS username, used for logging into Trader Workstation or IB Gateway.",
+        "prompt": true
+      },
+      "IbPassword": {
+        "default": "demouser",
+        "description": "TWS password.",
+        "detailed_description": "Your TWS password, used for secure authentication to the Trader Workstation or IB Gateway.",
+        "prompt": true
+      },
+      "FIXLoginId": {
+        "default": "",
+        "description": "FIX CTCI username.",
+        "detailed_description": "This field is for the username required for logging into the FIX CTCI gateway, if applicable.",
+        "prompt": true
+      },
+      "FIXPassword": {
+        "default": "",
+        "description": "FIX CTCI password.",
+        "detailed_description": "The password for logging into the FIX CTCI gateway, used for secure authentication.",
+        "prompt": true
+      },
+      "SecondFactorDevice": {
+        "default": "",
+        "description": "Second factor authentication device.",
+        "detailed_description": "Specifies the second factor device to be used if multiple devices are enabled for your account.",
+        "prompt": true
+      },
+      "ReloginAfterSecondFactorAuthenticationTimeout": {
+        "default": "no",
+        "description": "Retry login after second factor timeout.",
+        "detailed_description": "Automatically retries login if second factor authentication times out. Default is 'no'.",
+        "prompt": true
+      },
+      "SecondFactorAuthenticationTimeout": {
+        "default": 180,
+        "description": "Timeout for second factor authentication.",
+        "detailed_description": "The number of seconds before the second factor authentication process times out. Default is 180 seconds.",
+        "prompt": true
+      },
+      "ExitAfterSecondFactorAuthenticationTimeout": {
+        "default": "no",
+        "description": "Exit after second factor authentication timeout.",
+        "detailed_description": "Deprecated setting. Determines whether IBC should exit after failing second factor authentication.",
+        "prompt": true
+      }
+    },
+    "TradingMode": {
+      "default": "live",
+      "description": "Trading mode selection.",
+      "detailed_description": "Indicates whether to use the 'live' or 'paper' trading mode. Default is 'live', meaning real trading.",
+      "prompt": true
+    },
+    "AcceptNonBrokerageAccountWarning": {
+      "default": "no",
+      "description": "Accept paper trading account warning.",
+      "detailed_description": "Automatically confirms the warning displayed when logging into a paper-trading account. Default is 'no'.",
+      "prompt": true
+    },
+    "LoginDialogDisplayTimeout": {
+      "default": 60,
+      "description": "Login dialog display timeout in seconds.",
+      "detailed_description": "Controls how long (in seconds) IBC waits for the TWS login dialog to appear before restarting TWS. Default is 60 seconds.",
+      "prompt": true
+    },
+    "TWSStartupSettings": {
+      "IbDir": {
+        "default": "",
+        "description": "TWS settings directory.",
+        "detailed_description": "Path to the directory where TWS should store its settings. Typically this is the installation folder, but it can be customized.",
+        "prompt": true
+      },
+      "StoreSettingsOnServer": {
+        "default": "",
+        "description": "Store TWS settings on IB's server.",
+        "detailed_description": "Allows TWS settings to be stored on Interactive Brokers' servers for consistency across multiple devices.",
+        "prompt": true
+      },
+      "MinimizeMainWindow": {
+        "default": "no",
+        "description": "Minimize TWS main window on startup.",
+        "detailed_description": "If set to 'yes', TWS will minimize its main window upon startup. Default is 'no'.",
+        "prompt": true
+      },
+      "ExistingSessionDetectedAction": {
+        "default": "manual",
+        "description": "Action to take when an existing session is detected.",
+        "detailed_description": "Specifies what TWS should do if an existing session is already logged in. Options are 'manual', 'primary', 'primaryoverride', and 'secondary'. Default is 'manual'.",
+        "prompt": true
+      },
+      "OverrideTwsApiPort": {
+        "default": "",
+        "description": "Override TWS API port number.",
+        "detailed_description": "Changes the socket port in TWS's API configuration at runtime, only for advanced users. Leave empty to retain the current setting.",
+        "prompt": true
+      },
+      "OverrideTwsMasterClientID": {
+        "default": "",
+        "description": "Override TWS Master Client ID.",
+        "detailed_description": "Sets the Master Client ID in TWS API configuration. This setting is usually not required.",
+        "prompt": true
+      },
+      "ReadOnlyLogin": {
+        "default": "no",
+        "description": "Enable read-only login.",
+        "detailed_description": "Automatically logs into TWS in read-only mode, where placing or managing orders is not allowed. Default is 'no'.",
+        "prompt": true
+      },
+      "ReadOnlyApi": {
+        "default": "",
+        "description": "Enable read-only API.",
+        "detailed_description": "When enabled, API programs cannot submit, modify, or cancel orders. Leave empty to keep the current setting.",
+        "prompt": true
+      }
+    },
+    "TWSIndianVersionSettings": {
+      "DismissPasswordExpiryWarning": {
+        "default": "no",
+        "description": "Dismiss password expiry warning.",
+        "detailed_description": "When set to 'yes', TWS will automatically dismiss the password expiry warning. Default is 'no'.",
+        "prompt": true
+      },
+      "DismissNSEComplianceNotice": {
+        "default": "yes",
+        "description": "Dismiss NSE Compliance Notice.",
+        "detailed_description": "Automatically dismisses the NSE Compliance Notice for Indian versions of TWS. Default is 'yes'.",
+        "prompt": true
+      }
+    },
+    "IBCCommandServerSettings": {
+      "CommandServerPort": {
+        "default": 0,
+        "description": "IBC command server port number.",
+        "detailed_description": "The port on which the IBC command server listens for commands. Default is 0, which disables the command server.",
+        "prompt": true
+      },
+      "ControlFrom": {
+        "default": "",
+        "description": "Allowed command source IPs.",
+        "detailed_description": "Comma-separated list of IP addresses allowed to send commands to IBC. Default allows commands from the local host.",
+        "prompt": true
+      }
+    },
+    "DiagnosticSettings": {
+      "LogStructureScope": {
+        "default": "known",
+        "description": "Scope of structure logging.",
+        "detailed_description": "Defines which TWS windows are eligible for structure logging. Options are 'known', 'unknown', 'untitled', or 'all'. Default is 'known'.",
+        "prompt": true
+      },
+      "LogStructureWhen": {
+        "default": "never",
+        "description": "When to log window structure.",
+        "detailed_description": "Specifies the circumstances under which window structure is logged. Options are 'open', 'openclose', 'activate', and 'never'. Default is 'never'.",
+        "prompt": true
+      }
+    }
+  },
+
+
+
+  "settings": {
+    "TWS_MAJOR_VRSN": {
+      "default": "",
+      "description": "Specifies the major version number of Gateway.",
+      "detailed_description": "The major version number of Gateway to run. Find it from Gateway's 'Help > About' menu. The major version ignores the period after the first part of the version number (e.g., '1019').",
+      "prompt": 0,
+      "hidden": false
+    },
+    "IBC_INI": {
+      "default": "",
+      "description": "Location of IBC configuration file.",
+      "detailed_description": "The location and filename of the IBC configuration file. This file should be securely stored and encrypted in a personal folder for protection.",
+      "prompt": 0,
+      "hidden": false
+    },
+    "IBC_PATH": {
+      "default": "",
+      "description": "Folder containing the IBC files.",
+      "detailed_description": "This is the directory where the IBC files are located.",
+      "prompt": 0,
+      "hidden": false
+    },
+    "TWS_PATH": {
+      "default": "",
+      "description": "Folder where Gateway is installed.",
+      "detailed_description": "The folder where Gateway is installed. By default, Gateway installs to '~/Jts', even for TWS downloads.",
+      "prompt": 0,
+      "hidden": false
+    },
+    "TWS_SETTINGS_PATH": {
+      "default": "",
+      "description": "Folder where Gateway stores its settings.",
+      "detailed_description": "The folder where Gateway stores its settings. It defaults to the folder specified in TWS_PATH, but can be customized.",
+      "prompt": 0,
+      "hidden": false
+    },
+    "LOG_PATH": {
+      "default": "",
+      "description": "Folder where diagnostic logs are stored.",
+      "detailed_description": "The folder where diagnostic information is logged. If unspecified, logs go to the terminal window. This setting is important for troubleshooting.",
+      "prompt": 0,
+      "hidden": false
+    },
+    "TRADING_MODE": {
+      "default": "paper",
+      "description": "Trading mode for the account.",
+      "detailed_description": "Indicates whether to use the 'live' or 'paper' trading account. Default is 'live' if unspecified.",
+      "prompt": 1,
+      "hidden": false
+    },
+    "TWOFA_TIMEOUT_ACTION": {
+      "default": "exit",
+      "description": "Action to take if 2FA times out.",
+      "detailed_description": "Determines the action if two-factor authentication times out. Options are 'restart' to retry login or 'exit' to terminate IBC. Use 'exit' if external tools like cron will restart IBC.",
+      "prompt": 6,
+      "hidden": false
+    },
+    "TWSUSERID": {
+      "default": "",
+      "description": "IBKR user ID for TWS.",
+      "detailed_description": "Your IBKR user ID for TWS. Storing credentials here is not recommended for security reasons.",
+      "prompt": 2,
+      "hidden": false
+    },
+    "TWSPASSWORD": {
+      "default": "",
+      "description": "IBKR password for TWS.",
+      "detailed_description": "Your IBKR password for TWS. Storing credentials here is not recommended for security reasons.",
+      "prompt": 3,
+      "hidden": true
+    },
+    "FIXUSERID": {
+      "default": "",
+      "description": "FIX Gateway user ID.",
+      "detailed_description": "Your FIX Gateway user ID. Store it in a more secure location, not in this file.",
+      "prompt": 4,
+      "hidden": false
+    },
+    "FIXPASSWORD": {
+      "default": "",
+      "description": "FIX Gateway password.",
+      "detailed_description": "Your FIX Gateway password. Store it in a more secure location, not in this file.",
+      "prompt": 5,
+      "hidden": true
+    },
+    "JAVA_PATH": {
+      "default": "",
+      "description": "Path to Java installation.",
+      "detailed_description": "The path to a separate Java installation. This is optional as Gateway uses a hidden version of Java by default.",
+      "prompt": 8,
+      "hidden": false
+    },
+    "HIDE": {
+      "default": true,
+      "description": "Hide the diagnostic window.",
+      "detailed_description": "If set to 'yes' or 'true', the diagnostic window will be minimized. If set to any other value or unset, the window will be displayed.",
+      "prompt": 7,
+      "hidden": false
+    }
+  }
+}
