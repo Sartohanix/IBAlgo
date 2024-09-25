@@ -44,7 +44,7 @@ COMMAND=""
 DISPLAY_ID=9
 FORCE_RESTART=false
 
-while [[ $# -gt 0 ]]; do
+while [ $# -gt 0 ]; do
     case $1 in
         start|start-nogui|status|stop|help)
             COMMAND=$1
@@ -101,14 +101,14 @@ gateway_pid() {
 
 # Function to start the Gateway in the background with GUI
 start_gateway() {
-    if [[ -n $(gateway_pid) ]]; then
+    if [ -n "$(gateway_pid)" ]; then
         printf "Gateway is already running (PID: %s).\n" "$(gateway_pid)"
         exit 0
     fi
 
     gw_flag="--gateway"
 
-    if [[ -x "${IBC_PATH}/scripts/ibcstart.sh" ]]; then
+    if [ -x "${IBC_PATH}/ibcstart.sh" ]; then
         # get the IBC version
         read IBC_VRSN < "${IBC_PATH}/version"
 
@@ -116,21 +116,21 @@ start_gateway() {
 
         # Set up logging
         if $LOG_TO_FILE; then
-            if [[ ! -e "$LOG_PATH" ]]; then
+            if [ ! -e "$LOG_PATH" ]; then
                 mkdir -p "$LOG_PATH"
             fi
             readme=${LOG_PATH}/README.txt
-            if [[ ! -e "$readme" ]]; then
+            if [ ! -e "$readme" ]; then
                 echo You can delete the files in this folder at any time > "$readme"
                 echo >> "$readme"
                 echo "You'll be informed if a file is currently in use." >> "$readme"
             fi
             LOG_FILE=${LOG_PATH}/ibc-${IBC_VRSN}_${APP}-${TWS_MAJOR_VRSN}_$(date +%A).txt
-            if [[ -e "$LOG_FILE" ]]; then
-                if [[ $(uname) = [dD]arwin* ]]; then
-                    if [[ $(stat -f "%Sm" -t %D "$LOG_FILE") != $(date +%D) ]]; then rm "$LOG_FILE"; fi
+            if [ -e "$LOG_FILE" ]; then
+                if [ $(uname) = [dD]arwin* ]; then
+                    if [ $(stat -f "%Sm" -t %D "$LOG_FILE") != $(date +%D) ]; then rm "$LOG_FILE"; fi
                 else
-                    if [[ $(date -r "$LOG_FILE" +%D) != $(date +%D) ]]; then rm "$LOG_FILE"; fi
+                    if [ $(date -r "$LOG_FILE" +%D) != $(date +%D) ]; then rm "$LOG_FILE"; fi
                 fi
             fi
         else
@@ -146,7 +146,7 @@ start_gateway() {
         echo "+"
         echo -e "+ Running ${APP} ${TWS_MAJOR_VRSN}"
         echo "+"
-        if [[ "$LOG_FILE" != "/dev/null" ]]; then
+        if [ "$LOG_FILE" != "/dev/null" ]; then
             echo "+ Diagnostic information is logged in:"
             echo "+"
             echo -e "+ ${LOG_FILE}"
@@ -154,7 +154,7 @@ start_gateway() {
         fi
         echo -e "+${normal}"
 
-        if [[ "$(echo ${APP} | tr '[:lower:]' '[:upper:]')" = "GATEWAY" ]]; then
+        if [ "$(echo ${APP} | tr '[:lower:]' '[:upper:]')" = "GATEWAY" ]; then
             gw_flag=-g
         fi
 
@@ -162,14 +162,14 @@ start_gateway() {
 
         if $LOG_TO_FILE; then
             (
-                "${IBC_PATH}/scripts/ibcstart.sh" "${TWS_MAJOR_VRSN}" ${gw_flag} \
+                "${IBC_PATH}/ibcstart.sh" "${TWS_MAJOR_VRSN}" ${gw_flag} \
                     "--tws-path=${TWS_PATH}" "--tws-settings-path=${TWS_SETTINGS_PATH}" \
                     "--ibc-path=${IBC_PATH}" "--ibc-ini=${IBC_INI}" \
                     "--user=${TWSUSERID}" "--pw=${TWSPASSWORD}" "--fix-user=${FIXUSERID}" "--fix-pw=${FIXPASSWORD}" \
                     "--java-path=${JAVA_PATH}" "--mode=${TRADING_MODE}" "--on2fatimeout=${TWOFA_TIMEOUT_ACTION}"
             ) >> "${LOG_FILE}" 2>&1 &
         else
-            "${IBC_PATH}/scripts/ibcstart.sh" "${TWS_MAJOR_VRSN}" ${gw_flag} \
+            "${IBC_PATH}/ibcstart.sh" "${TWS_MAJOR_VRSN}" ${gw_flag} \
                 "--tws-path=${TWS_PATH}" "--tws-settings-path=${TWS_SETTINGS_PATH}" \
                 "--ibc-path=${IBC_PATH}" "--ibc-ini=${IBC_INI}" \
                 "--user=${TWSUSERID}" "--pw=${TWSPASSWORD}" "--fix-user=${FIXUSERID}" "--fix-pw=${FIXPASSWORD}" \
@@ -178,7 +178,7 @@ start_gateway() {
 
         printf "Gateway started in the background (PID: %s).\n" "$!"
     else
-        printf "Error: no execute permission for scripts in %s/scripts\n" "${IBC_PATH}" >&2
+        printf "Error: no execute permission for script %s" "${IBC_PATH}/ibcstart.sh"
         exit 1
     fi
 }
@@ -186,7 +186,7 @@ start_gateway() {
 # Function to start the Gateway in the background without GUI
 start_gateway_nogui() {
     # Parse command line arguments for nogui start
-    while [[ $# -gt 0 ]]; do
+    while [ $# -gt 0 ]; do
         case $1 in
             --display-id)
             DISPLAY_ID="$2"
@@ -205,7 +205,7 @@ start_gateway_nogui() {
     done
 
     # Path to xvfb-function script
-    XVFB_SERVER_SCRIPT="./scripts/xvfb/xvfb-functions.sh"
+    XVFB_SERVER_SCRIPT="./xvfb/xvfb-functions.sh"
 
     # Check if xvfb-function script exists
     if [ ! -f "$XVFB_SERVER_SCRIPT" ]; then
@@ -248,7 +248,7 @@ start_gateway_nogui() {
 status_gateway() {
     local pid
     pid=$(gateway_pid)
-    if [[ -n "$pid" ]]; then
+    if [ -n "$pid" ]; then
         printf "Gateway is running (PID: %s).\n" "$pid"
         
         # Check if the gateway was started with Xvfb (nogui mode)
@@ -263,13 +263,11 @@ status_gateway() {
     fi
 }
 
-Cop
-
 # Function to stop the Gateway
 stop_gateway() {
     local pid
     pid=$(gateway_pid)
-    if [[ -n "$pid" ]]; then
+    if [ -n "$pid" ]; then
         kill -SIGTERM "$pid"
         printf "Gateway stopped (PID: %s).\n" "$pid"
     else
