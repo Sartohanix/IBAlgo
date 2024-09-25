@@ -16,7 +16,7 @@
 			{
 				"--force-reinstall|-f":
 				{
-				"description": "Force-reinstall the component(s)."
+					"description": "Force-reinstall the component(s)."
 				}
 			},
 			"pp": 1
@@ -43,6 +43,13 @@
 			"description": "Uninstall component from IBAlgo.",
 			"nargs": 1,
 			"autocomplete": "installed",
+			"options":
+			{
+				"--preserve|-p":
+				{
+					"description": "Preserve some of the component's settings and/or files"
+				}
+			},
 			"pp": 4
 		},
 		"update_modules":
