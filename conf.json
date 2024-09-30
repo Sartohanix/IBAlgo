@@ -26,7 +26,7 @@
 			"template": true,
 			"description": "Configure IBAlgo's components (if applicable).",
 			"nargs": 1,
-			"autocomplete": "installed",
+			"autocomplete": "implemented",
 			"pp": 2
 		},
 		"run":
@@ -34,7 +34,7 @@
 			"template": true,
 			"description": "Run IBAlgo's components (if applicable).",
 			"nargs": 1,
-			"autocomplete": "installed",
+			"autocomplete": "implemented",
 			"pp": 3
 		},
 		"uninstall":

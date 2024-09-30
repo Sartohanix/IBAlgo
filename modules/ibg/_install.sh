@@ -129,6 +129,7 @@ EOF
     sed -i "s|$default_jts_path|$jts_path|g" "$l_dir/.install4j/response.varfile"
 
     rm -rf "$default_jts_path"
+    mkdir -p "$jts_path"
 
     # Store the installation file in the module's main directory [temporary ?]
     mv "$installer_file" "$l_dir"
