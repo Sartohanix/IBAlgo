@@ -75,6 +75,8 @@ install_ibgateway() {
 
     echo "Running IBGateway installer... This may take up to a few minutes."
 
+    ulimit -n 16384
+
     expect <<EOF > "$log_file" #2>&1
         set timeout -1
         set log_user 1
